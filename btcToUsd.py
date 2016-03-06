@@ -19,11 +19,12 @@ def convertPriceFloat(btcPriceRaw):
 
 
 def whichOne():
-    try:
-        typeCon = int(input("Enter 1 to convert USD to BTC, 2 to convert BTC to USD: "))
-    except ValueError:
-         print('Please enter either 1 or 2...')
-         typeCon = int(input("Enter 1 to convert USD to BTC, 2 to convert BTC to USD: "))
+    while True:
+        try:
+            typeCon = int(input("Enter 1 to convert USD to BTC, 2 to convert BTC to USD: "))
+            break
+        except ValueError:
+             print('Please enter either 1 or 2...')
     return typeCon
 
 def priceConvertUb(btcPriceFloat):
@@ -42,16 +43,23 @@ def priceConvertBu(btcPriceFloat):
 
 def reDone(btcFloat):
     theType = 0
-    theOne = int(input("Enter 1 to convert USD to BTC, 2 to convert BTC to USD: "))
-    if theOne == 1:
-        userAnsUb,ansUb = priceConvertUb(btcFloat)
-        theType = 1
-        return userAnsUb, ansUb, theOne, theType
+    while True:
+        try:
+            theOne = int(input("Enter 1 to convert USD to BTC, 2 to convert BTC to USD: "))
+            if theOne == 1:
+                userAnsUb,ansUb = priceConvertUb(btcFloat)
+                theType = 1
+                return userAnsUb, ansUb, theOne, theType
+                
+            elif theOne == 2:
+                theType = 2
+                userAnsBu,ansBu = priceConvertBu(btcFloat)
+                return userAnsBu, ansBu, theOne, theType
+                break
+        except ValueError:
+            print('Please enter either 1 or 2...')
         
-    elif theOne == 2:
-        theType = 2
-        userAnsBu,ansBu = priceConvertBu(btcFloat)
-        return userAnsBu, ansBu, theOne, theType
+        
 def convertAgain(again):
     if again == 1:
         whichOne()
@@ -82,30 +90,37 @@ def main():
             break
         else:
             print('Please input 1 or 2...')
-            which = int(input("Enter 1 to convert USD to BTC, 2 to convert BTC to USD: "))
-    try:
-        again = int(input("Enter 1 to do another conversion, any other key to exit: "))
-        while True:
-            if again == 1:
-            
-                userAnsPt1,userAnsPt2, theOne, theType = reDone(btcFloat)
-                if theType == 1:
-                    print('$',userAnsPt1,'is',userAnsPt2,'BTC')
-                    again = 0
-                    again = int(input("Enter 1 to do another conversion, any other key to exit: "))
-                elif theType == 2:
-                    print(userAnsPt1,'BTC','is $',userAnsPt2)
-                    again = 0
-                    again = int(input("Enter 1 to do another conversion, any other key to exit: "))
-            else:
+            try:
+                which = int(input("Enter 1 to convert USD to BTC, 2 to convert BTC to USD: "))
                 break
-                input('Press ENTER to exit')
-    except ValueError:
-       
-        input('Press ENTER to exit')
+            except ValueError:
+                print('Please input 1 or 2...')
+                                
+    while True:
+        try:
+            again = int(input("Enter 1 to do another conversion, any other key to exit: "))
+            
+            while True:
+                if again == 1:
+                    
+                    userAnsPt1,userAnsPt2, theOne, theType = reDone(btcFloat)
+                    if theType == 1:
+                        print('$',userAnsPt1,'is',userAnsPt2,'BTC')
+                        again = 0
+                        again = int(input("Enter 1 to do another conversion, any other key to exit: "))
+                    elif theType == 2:
+                        print(userAnsPt1,'BTC','is $',userAnsPt2)
+                        again = 0
+                        again = int(input("Enter 1 to do another conversion, any other key to exit: "))
+                else:
+                    break
+                    input('Press ENTER to exit')
+        except ValueError:
+            break
+            input('Press ENTER to exit')
     
-    
-    
+            
+
 main()
 
 
