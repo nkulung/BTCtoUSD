@@ -29,14 +29,24 @@ def whichOne():
 
 def priceConvertUb(btcPriceFloat):
     btc = btcPriceFloat
-    userUsd = float(input("Enter a price in USD: "))
-    convertedub = (userUsd*(1/btc))
+    while True:
+        try:
+            userUsd = float(input("Enter a price in USD: "))
+            convertedub = (userUsd*(1/btc))
+            break
+        except ValueError:
+            print("Please enter a valid number...")
     return userUsd, convertedub
 
 def priceConvertBu(btcPriceFloat):
     btc = btcPriceFloat
-    userBtc = float(input("Enter amount of Bitcoin: "))
-    convertedbu = userBtc * btc
+    while True:
+        try:
+            userBtc = float(input("Enter amount of Bitcoin: "))
+            convertedbu = userBtc * btc
+            break
+        except ValueError:
+            print("Please enter a valid number...")
     return userBtc, convertedbu
 
 
