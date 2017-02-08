@@ -14,7 +14,12 @@ def getPrice():
 def convertPriceFloat(btcPriceRaw):
     btcPriceInt = btcPriceRaw.split()
     btcPriceInt = btcPriceInt[3].replace("$","")
-    btcPriceFloat = float(btcPriceInt)
+    try:
+        btcPriceFloat = float(btcPriceInt)
+    except ValueError:
+        btcPriceInt = btcPriceInt.replace(",","")
+        btcPriceFloat = float(btcPriceInt)
+    
     return btcPriceFloat
 
 
@@ -114,8 +119,9 @@ def main():
                 if again == 1:
                     
                     userAnsPt1,userAnsPt2, theOne, theType = reDone(btcFloat)
+                    
                     if theType == 1:
-                        print('$',userAnsPt1,'is',userAnsPt2,'BTC')
+                        print('$',userAnsPt1,'is','{:.2f}'.format(userAnsPt2),'BTC')
                         again = 0
                         again = int(input("Enter 1 to do another conversion, any other key to exit: "))
                     elif theType == 2:
