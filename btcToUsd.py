@@ -3,24 +3,26 @@ from bs4 import BeautifulSoup as bs
 import urllib3
 
 def getPrice():
-    s = requests.get('https://www.coinbase.com/charts').text
+    s = requests.get('https://www.worldcoinindex.com/coin/bitcoin').text
     soup = bs(s,"html.parser")
-    btcPrice = soup.find("li", {"class": "top-balance"})
-    btcPriceRaw = btcPrice.text
-    return btcPriceRaw
-
+    btcPrice = soup.find("td", {"class" : "coinprice"})
+    btcString = btcPrice.getText()  
+    return btcString
 
 
 def convertPriceFloat(btcPriceRaw):
-    btcPriceInt = btcPriceRaw.split()
-    btcPriceInt = btcPriceInt[3].replace("$","")
-    try:
-        btcPriceFloat = float(btcPriceInt)
-    except ValueError:
-        btcPriceInt = btcPriceInt.replace(",","")
-        btcPriceFloat = float(btcPriceInt)
-    
-    return btcPriceFloat
+    price = ""
+    for h in btcPriceRaw:
+        if(h.isdigit()):
+            price += h
+    print(price)
+    numLen = len(price)
+    num = price[:-2]
+    dec = price[-2:]
+    price = num + '.' + dec
+    btcDisplay = '$' + price
+    btcPriceFloat = float(price)
+    return btcPriceFloat, btcDisplay
 
 
 def whichOne():
@@ -57,19 +59,19 @@ def priceConvertBu(btcPriceFloat):
 
 
 def reDone(btcFloat):
-    theType = 0
+    choice = 0
     while True:
         try:
             theOne = int(input("Enter 1 to convert USD to BTC, 2 to convert BTC to USD: "))
             if theOne == 1:
                 userAnsUb,ansUb = priceConvertUb(btcFloat)
-                theType = 1
-                return userAnsUb, ansUb, theOne, theType
+                choice = 1
+                return userAnsUb, ansUb, theOne, choice
                 
             elif theOne == 2:
-                theType = 2
+                choice = 2
                 userAnsBu,ansBu = priceConvertBu(btcFloat)
-                return userAnsBu, ansBu, theOne, theType
+                return userAnsBu, ansBu, theOne, choice
                 break
         except ValueError:
             print('Please enter either 1 or 2...')
@@ -85,7 +87,7 @@ def convertAgain(again):
 
 def main():
     btcPriceFound = getPrice()
-    btcFloat = convertPriceFloat(btcPriceFound)
+    btcFloat, btcDisplay = convertPriceFloat(btcPriceFound)
     print('------------------------------')
     print('BTC TO USD CONVERTER')
     print('BY NICK KULUNGIAN')
