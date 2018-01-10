@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup as bs
 import urllib3
+import sys
 
 def getPrice():
     s = requests.get('https://www.worldcoinindex.com/coin/bitcoin').text
@@ -28,7 +29,7 @@ def convertPriceFloat(btcPriceRaw):
 def whichOne():
     while True:
         try:
-            typeCon = int(input("Enter 1 to convert USD to BTC, 2 to convert BTC to USD: "))
+            typeCon = int(input("Enter 1 to convert USD to BTC, 2 to convert BTC to USD, 3 to exit: "))
             break
         except ValueError:
              print('Please enter either 1 or 2...')
@@ -72,6 +73,10 @@ def reDone(btcFloat):
                 choice = 2
                 userAnsBu,ansBu = priceConvertBu(btcFloat)
                 return userAnsBu, ansBu, theOne, choice
+                
+            elif theOne == 3:
+                sys.exit()
+                choice = 3
                 break
         except ValueError:
             print('Please enter either 1 or 2...')
@@ -105,10 +110,12 @@ def main():
             print(userAnsBu,'BTC', 'is','$',ansBu)
             which = 0
             break
+        elif which == 3:
+            sys.exit()
         else:
             print('Please input 1 or 2...')
             try:
-                which = int(input("Enter 1 to convert USD to BTC, 2 to convert BTC to USD: "))
+                which = int(input("Enter 1 to convert USD to BTC, 2 to convert BTC to USD, 3 to exit: "))
                 break
             except ValueError:
                 print('Please input 1 or 2...')
@@ -119,9 +126,7 @@ def main():
             
             while True:
                 if again == 1:
-                    
                     userAnsPt1,userAnsPt2, theOne, theType = reDone(btcFloat)
-                    
                     if theType == 1:
                         print('$',userAnsPt1,'is','{:.2f}'.format(userAnsPt2),'BTC')
                         again = 0
@@ -136,8 +141,6 @@ def main():
         except ValueError:
             break
             input('Press ENTER to exit')
-    
-            
 
 main()
 
